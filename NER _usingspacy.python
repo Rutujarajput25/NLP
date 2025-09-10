@@ -1,0 +1,32 @@
+import spacy
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init(autoreset=True)
+
+nlp = spacy.load("en_core_web_sm")
+
+texts = [
+    "Barack Obama was the 44th President of the United States.",
+    "Apple is looking at buying a U.K. startup for $1 billion.",
+    "Elon Musk founded SpaceX in 2002 in California.",
+    "Amazon headquarters is located in Seattle.",
+    "The Taj Mahal is in Agra, India.",
+    "Cristiano Ronaldo plays for Al Nassr in Saudi Arabia."
+]
+
+# Define colors for entity types
+entity_colors = {
+    "PERSON": Fore.GREEN,
+    "ORG": Fore.CYAN,
+    "GPE": Fore.MAGENTA,
+    "MONEY": Fore.YELLOW,
+    "DATE": Fore.RED
+}
+
+for text in texts:
+    doc = nlp(text)
+    print(f"\n{text}")
+    for ent in doc.ents:
+        color = entity_colors.get(ent.label_, Fore.WHITE)
+        print(f"  {color}{ent.text} --> {ent.label_}{Style.RESET_ALL}")
